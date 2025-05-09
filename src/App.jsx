@@ -2,49 +2,34 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import appLogo from '/favicon.svg'
 import PWABadge from './PWABadge.jsx'
+import './App.css'
 
 function App() {
-  const [count, setCount] = useState(4)
-
-  const buttonStyle = {
-    width: '150px',
-    height: '150px',
-    background: 'linear-gradient(135deg, #d3c0b6, #b8a89e)', // 莫兰迪色系渐变
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-    borderRadius: '8px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '24px',
-    color: '#fff',
-    cursor: 'pointer',
-    transition: 'transform 0.2s',
-  };
-
-  const handleButtonClick = () => {
-    setCount(count + 1);
-  };
+  const [count, setCount] = useState(0)
 
   return (
     <>
-      <div className="flex flex-row justify-center">
+      <div className='flex justify-center items-center'>
+        <a href="https://vite.dev" target="_blank">
+          <img src={appLogo} className="logo" alt="witness-react-autoupate logo" />
+        </a>
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
-        <h1>witness</h1>
       </div>
-      
+      <h1 className='text-red-400 font-bold'>witness-react-autoupate</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
       <PWABadge />
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-        <div
-          style={buttonStyle}
-          onClick={handleButtonClick}
-          onMouseDown={() => (buttonStyle.transform = 'scale(0.95)')}
-          onMouseUp={() => (buttonStyle.transform = 'scale(1)')}
-        >
-          {count}
-        </div>
-      </div>
     </>
   )
 }

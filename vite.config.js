@@ -1,17 +1,16 @@
 import { VitePWA } from 'vite-plugin-pwa';
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-import path from 'path'
+import tailwindcss from '@tailwindcss/vite';
+import path from "path";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), VitePWA({
-    base: '/',
-
-    strategies: 'injectManifest',
-    srcDir: 'src',
-    filename: 'sw.js',
+  plugins: [tailwindcss(), react(), VitePWA({
     registerType: 'autoUpdate',
     injectRegister: false,
 
@@ -21,32 +20,16 @@ export default defineConfig({
     },
 
     manifest: {
-      name: 'Witness',
-      short_name: 'Witness',
-      display: 'standalone',
-      display_override: ["minimal-ui"],
-      id: '/',
-      start_url: '/',
-      // start_url: 'http://10.0.0.55:5173/',
-      description: '\u0016\u0016Habit-forming apps',
+      name: 'witness-react-autoupate',
+      short_name: 'witness-react-autoupate',
+      description: 'witness-react-autoupate',
       theme_color: '#ffffff',
-      background_color: '#000000',
-      icons: [
-        {
-          src: './public/icon-512.png',
-          sizes: '512x512',
-          type: 'image/png'
-        },
-        {
-          src: './public/icon-192.png',
-          sizes: '192x192',
-          type: 'image/png'
-        }
-      ]
     },
 
-    injectManifest: {
+    workbox: {
       globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+      cleanupOutdatedCaches: true,
+      clientsClaim: true,
     },
 
     devOptions: {
@@ -55,35 +38,13 @@ export default defineConfig({
       suppressWarnings: true,
       type: 'module',
     },
-
-    workbox: {
-      globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
-      runtimeCaching: [
-        {
-          urlPattern: /\.(?:png|svg|ico|webp)$/,
-          handler: 'CacheFirst',
-        },
-        {
-          urlPattern: /.*\.html.*/,
-          handler: 'CacheFirst',
-        },
-        {
-          urlPattern: /.*\.css.*/,
-          handler: 'CacheFirst',
-        },
-        {
-          urlPattern: /.*\.js.*/,
-          handler: 'CacheFirst',
-        },
-      ],
-    },
   })],
   server: {
-    host: '0.0.0.0',
+    port: 3003
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
 })
