@@ -49,6 +49,15 @@ const routes = [
       title: '设置',
       icon: 'Settings'
     }
+  },
+  {
+    path: '/demo',
+    name: 'Demo',
+    component: () => import('@/views/Demo.vue'),
+    meta: {
+      title: '进度按钮演示',
+      icon: 'GalleryVerticalEnd'
+    }
   }
 ]
 

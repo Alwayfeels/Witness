@@ -12,13 +12,13 @@ import {
 } from '@/components/ui/sidebar';
 import { useRouter, useRoute } from 'vue-router';
 import { computed } from 'vue';
-import { 
-  CheckSquare, 
-  Repeat, 
-  Utensils, 
-  BarChart, 
+import {
+  CheckSquare,
+  Repeat,
+  Utensils,
+  BarChart,
   Settings,
-  GalleryVerticalEnd 
+  GalleryVerticalEnd
 } from 'lucide-vue-next';
 
 const props = defineProps({
@@ -36,7 +36,8 @@ const iconMap = {
   Repeat,
   Utensils,
   BarChart,
-  Settings
+  Settings,
+  GalleryVerticalEnd
 };
 
 const routes = computed(() => {
@@ -49,42 +50,39 @@ const isActive = (path) => {
 </script>
 
 <template>
-  <SidebarProvider>
-    <Sidebar v-bind="props">
-      <SidebarHeader>
+  <Sidebar v-bind="props">
+    <SidebarHeader>
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton size="lg" as-child>
+            <a href="#">
+              <div
+                class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                <GalleryVerticalEnd class="size-4" />
+              </div>
+              <div class="flex flex-col gap-0.5 leading-none">
+                <span class="font-medium">Witness</span>
+                <span class="">v1.0.0</span>
+              </div>
+            </a>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    </SidebarHeader>
+    <SidebarContent>
+      <SidebarGroup>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" as-child>
-              <a href="#">
-                <div
-                  class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
-                >
-                  <GalleryVerticalEnd class="size-4" />
-                </div>
-                <div class="flex flex-col gap-0.5 leading-none">
-                  <span class="font-medium">Witness</span>
-                  <span class="">v1.0.0</span>
-                </div>
-              </a>
+          <SidebarMenuItem v-for="route in routes" :key="route.path" class="h-8">
+            <SidebarMenuButton as-child :is-active="isActive(route.path)">
+              <router-link :to="route.path" class="font-medium flex items-center gap-2">
+                <component :is="iconMap[route.meta.icon]" class="size-4" />
+                {{ route.meta.title }}
+              </router-link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarMenu>
-            <SidebarMenuItem v-for="route in routes" :key="route.path" class="h-8">
-              <SidebarMenuButton as-child :is-active="isActive(route.path)">
-                <router-link :to="route.path" class="font-medium flex items-center gap-2">
-                  <component :is="iconMap[route.meta.icon]" class="size-4" />
-                  {{ route.meta.title }}
-                </router-link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
-      </SidebarContent>
-      <SidebarRail />
-    </Sidebar>
-  </SidebarProvider>
+      </SidebarGroup>
+    </SidebarContent>
+    <SidebarRail />
+  </Sidebar>
 </template>
