@@ -3,7 +3,7 @@ import AppSidebar from './components/AppSidebar.vue'
 </script>
 
 <template>
-  <div class="flex">
+  <div class="w-[100vw] flex">
     <AppSidebar />
     <div class="flex-1">
       <router-view />
