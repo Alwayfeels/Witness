@@ -97,7 +97,7 @@ const form = reactive({
   content: 24,
   label: 'HEATING',
   size: 100,
-  svgSizeOffset: 20,
+  svgSizeOffset: 10,
   
   // 刻度属性
   tickCount: 12,
@@ -105,14 +105,13 @@ const form = reactive({
   tickWidth: 2,
   tickVisible: true,
   colorTick: '#d1d5db',
-  colorTrack: '#e5e7eb',
-  trackWidth: 8,
-  trackSize: 50,
   
   // 进度条属性
+  progressPercent: 60,
   progressRingSize: 45,
   progressRingWidth: 8,
   progressStartAngle: 0,
+  progressEndAngle: 359,
   progressColorStart: '#6366f1',
   progressColorEnd: '#8b5cf6',
   progressGradientAngle: 45,
@@ -150,15 +149,15 @@ const tickInputList = computed(() => [
   { key: 'tickVisible', label: '显示刻度', type: 'checkbox' },
   { key: 'colorTick', label: '刻度颜色', type: 'color' },
   { key: 'colorTrack', label: '刻度环背景色', type: 'color' },
-  { key: 'trackWidth', label: '刻度环宽度', type: 'number', min: 1, max: 20 },
-  { key: 'trackSize', label: '刻度环直径', type: 'number', min: 30, max: 100 },
 ])
 
 // 进度条属性
 const progressInputList = computed(() => [
+  { key: 'progressPercent', label: '进度百分比', type: 'number', min: 0, max: 100 },
   { key: 'progressRingSize', label: '进度环直径', type: 'number', min: 30, max: 100 },
   { key: 'progressRingWidth', label: '进度环宽度', type: 'number', min: 2, max: 20 },
   { key: 'progressStartAngle', label: '起始角度', type: 'number', min: 0, max: 360 },
+  { key: 'progressEndAngle', label: '结束角度', type: 'number', min: 0, max: 360 },
   { key: 'progressColorStart', label: '渐变起始色', type: 'color' },
   { key: 'progressColorEnd', label: '渐变结束色', type: 'color' },
   { key: 'progressGradientAngle', label: '渐变角度', type: 'number', min: 0, max: 360 },

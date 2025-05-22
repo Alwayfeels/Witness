@@ -58,7 +58,16 @@ const routes = [
       title: '进度按钮演示',
       icon: 'GalleryVerticalEnd'
     }
-  }
+  },
+  {
+    path: '/demo-button',
+    name: 'DemoButton',
+    component: () => import('@/views/DemoButton.vue'),
+    meta: {
+      title: '按钮演示',
+      icon: 'GalleryVerticalEnd'
+    }
+  },
 ]
 
 const router = createRouter({

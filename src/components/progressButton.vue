@@ -12,9 +12,6 @@
           <stop offset="100%" :stop-color="progressColorEnd" />
         </linearGradient>
       </defs>
-      <!-- 背景圆环 -->
-      <circle v-if="tickVisible" :cx="svgSize / 2" :cy="svgSize / 2" :r="trackSize" :stroke-width="trackWidth"
-        fill="none" :stroke="colorTrack" />
       <!-- 外部刻度 -->
       <g v-if="tickVisible">
         <template v-for="n in tickCount" :key="n">
@@ -66,17 +63,16 @@ const props = defineProps({
   // 刻度属性
   tickCount: { type: Number, default: 12 }, // 刻度数量
   tickLength: { type: Number, default: 4 }, // 刻度长度
-  tickWidth: { type: Number, default: 2 }, // 刻度宽度
+  tickWidth: { type: Number, default: 8 }, // 刻度宽度
   tickVisible: { type: Boolean, default: true }, // 是否显示刻度
   colorTick: { type: String, default: '#d1d5db' }, // 刻度颜色
-  colorTrack: { type: String, default: '#e5e7eb' }, // 刻度环背景色
-  trackWidth: { type: Number, default: 8 }, // 刻度环宽度
-  trackSize: { type: Number, default: 50 }, // 刻度环直径
 
   // 进度条属性
+  progressPercent: { type: Number, default: 0 }, // 进度百分比
   progressRingSize: { type: Number, default: 55 }, // 进度圆环直径
   progressRingWidth: { type: Number, default: 8 }, // 进度圆环宽度
   progressStartAngle: { type: Number, default: 0 }, // 起始角度（度数）
+  progressEndAngle: { type: Number, default: 359 }, // 结束角度（度数）
   progressColorStart: { type: String, default: '#6366f1' }, // 渐变起始颜色
   progressColorEnd: { type: String, default: '#8b5cf6' }, // 渐变结束颜色
   progressGradientAngle: { type: Number, default: 45 }, // 渐变角度（度数）
@@ -113,13 +109,20 @@ const gradientCoords = computed(() => {
 
 // SVG尺寸计算，默认比组件尺寸大20
 const svgSize = computed(() => props.size + props.svgSizeOffset)
-const radius = computed(() => (svgSize.value - props.trackWidth) / 2)
 // 进度圆环周长
 const progressCircumference = computed(() => 2 * Math.PI * props.progressRingSize)
-// 进度偏移计算，考虑起始角度
+// 进度偏移计算，考虑起始角度和结束角度
 const progressOffset = computed(() => {
+  // 计算起始角度和结束角度之间的角度差
+  const angleDiff = ((props.progressEndAngle - props.progressStartAngle + 360) % 360) / 360
+  // 根据角度差计算有效周长
+  const effectiveCircumference = progressCircumference.value * angleDiff
+  // 起始角度对应的偏移量
   const startAngleOffset = (props.progressStartAngle / 360) * progressCircumference.value
-  return progressCircumference.value * (1 - props.progress / 100) + startAngleOffset
+  // 使用progressPercent计算进度
+  const percent = props.progressPercent !== undefined ? props.progressPercent : props.progress
+  // 最终偏移量 = 总周长 - (起始偏移 + 进度比例 * 有效周长)
+  return progressCircumference.value - (startAngleOffset + (percent / 100) * effectiveCircumference)
 })
 
 const sizeClass = computed(() => {
